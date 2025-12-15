@@ -1,37 +1,43 @@
-class BankAccount:
-    def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.balance = balance
-        self.is_active = True
-
-    def deposit(self, amount):
-        if not self.is_active:
-            return "Hesap pasif"
-            
-        if amount <= 0:
-            return "Hata: Yatırılacak tutar pozitif olmalı"
-        
-        self.balance += amount
-        
-        # 10.000 TL üzeri yatırımlarda 100 TL bonus (Bunu test etmeyeceğiz!)
-        if amount >= 10000:
-            self.balance += 100
-            
-        return "Para yatırıldı"
-
-    def withdraw(self, amount):
-        if not self.is_active:
-            return "Hesap pasif"
-            
-        if amount > self.balance:
-            return "Hata: Yetersiz bakiye"
-            
-        if amount <= 0:
-            return "Hata: Çekilecek tutar pozitif olmalı"
-            
-        self.balance -= amount
-        return "Para çekildi"
-
-    def close_account(self):
-        self.is_active = False
-        return "Hesap kapatıldı"
+class AkilliKasa:
+    def __init__(self):
+        self.kilitli = True
+        self.bakiye = 0
+        self.ozel_anahtar = "SÜPER_GİZLİ_ANAHTAR_2025"
+
+    def islem_yap(self, komut, miktar=0, anahtar=None):
+        """
+        RL Ajanını zorlamak için tasarlanmış fonksiyon.
+        Yanlış veri tiplerinde hata fırlatır (Ceza puanı için).
+        """
+        # TUZAK 1: Veri Tipi Kontrolü (Ajan bunu başta yanlış yapabilir)
+        if not isinstance(komut, str):
+            raise TypeError("Komut bir metin olmalidir!")
+
+        # TUZAK 2: Negatif Miktar (Mantık Hatası)
+        if isinstance(miktar, (int, float)) and miktar < 0:
+            raise ValueError("Miktar negatif olamaz!")
+
+        # ŞİFRE AÇMA (Basit Durum)
+        if komut == "AC":
+            self.kilitli = False
+            return "Kasa Acildi"
+
+        # PARA YATIRMA (Kilit Kontrolü)
+        elif komut == "YATIR":
+            if self.kilitli:
+                return "Kasa Kilitli!"
+            self.bakiye += miktar
+            return self.bakiye
+
+        # GİZLİ DURUM (Coverage Arttırma Stratejisi Gerektirir)
+        elif komut == "SIFIRLA":
+            # Ajanın bu 'if' bloğuna girmesi için doğru anahtarı bulması lazım
+            # İlk denemede muhtemelen burayı test edemeyecek ve 'STRATEJI_GENISLET' seçecek.
+            if anahtar == self.ozel_anahtar:
+                self.bakiye = 0
+                return "Sifirlandi"
+            else:
+                return "Yetkisiz Islem"
+        
+        else:
+            return "Gecersiz Komut"

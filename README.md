@@ -1,52 +1,81 @@
-# 🤖 RL & LLM Destekli Otomatik Test Üreticisi (Auto-Test-Agent)
+# 🤖 AI-Powered Auto Test Agent (Otonom Test Aracı)
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Gemini API](https://img.shields.io/badge/LLM-Gemini%20Pro-orange)
-![Reinforcement Learning](https://img.shields.io/badge/AI-Reinforcement%20Learning-red)
-![Status](https://img.shields.io/badge/Status-Completed-success)
+![Gemini API](https://img.shields.io/badge/AI-Gemini%20Pro-orange)
+![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-red)
+![Status](https://img.shields.io/badge/Status-Stable-success)
 
-Bu proje, **Reinforcement Learning (Pekiştirmeli Öğrenme)** ve **Google Gemini API** kullanarak Python kodları için otomatik olarak yüksek kaliteli unit testler (birim testleri) üreten akıllı bir ajandır.
+Bu proje, Python kodları için **otomatik unit test yazan, çalıştıran ve hataları kendi kendine düzelten (Self-Healing)** yapay zeka destekli bir otomasyon aracıdır.
 
-Agent, üretilen test kodunun kalitesini (**Cyclomatic Complexity** ve kapsam) analiz eder ve bu metrikleri bir "ödül" (reward) mekanizması olarak kullanarak zamanla daha iyi testler yazmayı öğrenir.
+Google Gemini API kullanılarak geliştirilen ajan, Reinforcement Learning (RL) prensiplerine benzer bir geri bildirim döngüsüyle çalışır.
 
-## 🚀 Projenin Amacı
+## 🚀 Özellikler
 
-Geleneksel test yazma süreçlerini otomatize etmek ve LLM'lerin rastgele çıktı üretme potansiyelini, matematiksel bir kalite metriği (Radon Complexity) ile denetleyerek optimize etmektir.
+Proje 3 ana modülden oluşur:
 
-## ⚙️ Özellikler
+* **Modül 1: Kod Üretimi & Statik Analiz**
+    * Doğal dildeki senaryoları (örn: "Kargo hesaplama testi") Python test koduna çevirir.
+    * Üretilen kodun karmaşıklığını (Radon Complexity) ve kalitesini ölçer.
+    * **Call Graph:** Kodun çalışma mantığını görselleştiren akış şemaları çizer.
 
-* **🧠 LLM Entegrasyonu:** Google Gemini Pro modeli ile doğal dil işleme ve kod üretimi.
-* **🎮 Reinforcement Learning Döngüsü:**
-    * **State (Durum):** Mevcut kodun ve testin durumu.
-    * **Action (Eylem):** Prompt stratejisini değiştirme veya iyileştirme.
-    * **Reward (Ödül):** Düşük karmaşıklık (complexity) ve hatasız çalışma durumunda pozitif ödül.
-* **📊 Kod Analizi:** `Radon` kütüphanesi ile üretilen kodun Siklomatik Karmaşıklığının hesaplanması.
-* **🔄 Kendi Kendini İyileştirme:** Hatalı test durumlarında agent'ın cezalandırılması ve strateji değiştirmesi.
+* **Modül 2: Test Coverage (Kapsama) Analizi**
+    * Mevcut kaynak kodunuz ve test kodunuzu yükleyip "Kodun yüzde kaçı test edildi?" sorusuna yanıt verir.
+    * Test edilmeyen satırları kod üzerinde kırmızı ile işaretler.
+
+* **Modül 3: Otonom Ajan (Auto-Test Agent)** 🔥 *En Güçlü Modül*
+    * Sadece kaynak kodu verirsiniz.
+    * Ajan testi yazar, çalıştırır ve **Coverage oranını** ölçer.
+    * Eğer hata alırsa veya Coverage düşükse, hatayı okur ve **kendi yazdığı kodu düzelterek** tekrar dener.
+    * %100 Kapsama oranına ulaşana kadar (veya max deneme sayısına kadar) döngü devam eder.
 
 ## 🛠️ Kurulum
 
-Projeyi yerel ortamınızda çalıştırmak için aşağıdaki adımları izleyin.
+Projeyi yerel ortamınızda çalıştırmak için:
 
-### 1. Repoyu Klonlayın
+1.  **Repoyu Klonlayın:**
+    ```bash
+    git clone [https://github.com/kullaniciadi/ai-test-agent.git](https://github.com/kullaniciadi/ai-test-agent.git)
+    cd ai-test-agent
+    ```
+
+2.  **Sanal Ortam Oluşturun (Önerilen):**
+    ```bash
+    python -m venv venv
+    # Windows:
+    venv\Scripts\activate
+    # Mac/Linux:
+    source venv/bin/activate
+    ```
+
+3.  **Gerekli Kütüphaneleri Yükleyin:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **API Anahtarını Ayarlayın:**
+    Ana dizinde `.env` dosyası oluşturun ve Gemini API anahtarınızı ekleyin:
+    ```env
+    GEMINI_API_KEY=senin_api_anahtarin_burada
+    ```
+
+## ▶️ Kullanım
+
+Uygulamayı başlatmak için terminale şu komutu girin:
+
 ```bash
-git clone [https://github.com/kullaniciadi/proje-adi.git](https://github.com/kullaniciadi/proje-adi.git)
-cd proje-adi
-
-#Sanal Ortam (Virtual Environment) Oluşturun
-python -m venv venv
-# Windows için:
-venv\Scripts\activate
-# Mac/Linux için:
-source venv/bin/activate
-
-
-#Gerekli Kütüphaneleri Yükleyin
-pip install -r requirements.txt
-
-
-#Ortam Değişkenlerini Ayarlayın
-#Proje dizininde bir .env dosyası oluşturun ve Google API anahtarınızı ekleyin:
-GEMINI_API_KEY=senin_api_anahtarin_buraya
-
-#Uygulamayı başlatmak için ana scripti çalıştırın:
 streamlit run main.py
+
+AI_TEST_AUTOMATION_PROJESI/
+│
+├── modules/                  # Çekirdek Modüller
+│   ├── ai_generator.py       # LLM (Gemini) Bağlantısı
+│   ├── coverage_tool.py      # Test Çalıştırma ve Coverage Ölçümü
+│   ├── metrics.py            # Radon Karmaşıklık Analizi
+│   ├── visualizer.py         # Call Graph Görselleştirme
+│   └── agent.py              # Otonom Ajan (RL Döngüsü)
+│
+├── temp_files/               # Geçici test dosyalarının oluşturulduğu yer
+├── main.py                   # Streamlit Ana Arayüzü
+├── requirements.txt          # Bağımlılıklar
+└── .env                      # API Anahtarı
+
