@@ -1,102 +1,49 @@
 import unittest
-# Hedef sınıfın 'app' dosyasında bulunduğunu varsayıyoruz.
-from app import AkilliKasa
+from app import Urun, Kullanici, SiparisYoneticisi
 
-class TestAkilliKasa(unittest.TestCase):
-    """AkilliKasa sınıfının fonksiyonelliğini ve tuzağa yönelik hata yakalama yeteneğini test eder."""
-
-    def setUp(self):
-        """Her testten önce yeni bir kasa örneği oluşturur."""
-        self.kasa = AkilliKasa()
-        self.GIZLI_ANAHTAR = "SÜPER_GİZLİ_ANAHTAR_2025" # Testler için sabit anahtar
-
-    # --- Başlangıç Durumu Testleri ---
-    def test_initial_state(self):
-        """Kasanın başlangıçta kilitli olduğunu ve bakiyenin sıfır olduğunu doğrular."""
-        self.assertTrue(self.kasa.kilitli)
-        self.assertEqual(self.kasa.bakiye, 0)
-
-    # --- Komut AC (Açma) Testleri ---
-    def test_ac_komutu_success(self):
-        """Kasanın başarıyla açıldığını ve kilit durumunun değiştiğini doğrular."""
-        result = self.kasa.islem_yap("AC")
-        self.assertEqual(result, "Kasa Acildi")
-        self.assertFalse(self.kasa.kilitli)
-
-    # --- Hata/Tuzak Testleri ---
-    def test_tuzak1_type_error_on_komut(self):
-        """Komutun dize (string) olmaması durumunda TypeError fırlattığını kontrol eder."""
-        with self.assertRaisesRegex(TypeError, "Komut bir metin olmalidir!"):
-            self.kasa.islem_yap(komut=123)
-
-    def test_tuzak2_value_error_on_negative_miktar(self):
-        """Miktarın negatif olması durumunda ValueError fırlattığını kontrol eder."""
-        # Negatif miktarı int olarak test et
-        with self.assertRaisesRegex(ValueError, "Miktar negatif olamaz!"):
-            self.kasa.islem_yap(komut="YATIR", miktar=-10)
-        
-        # Negatif miktarı float olarak test et
-        with self.assertRaisesRegex(ValueError, "Miktar negatif olamaz!"):
-            self.kasa.islem_yap(komut="YATIR", miktar=-5.5)
-
-    # --- Komut YATIR Testleri ---
-    def test_yatir_kilitli_iken(self):
-        """Kasa kilitliyken para yatırma girişiminin başarısız olduğunu kontrol eder."""
-        self.assertTrue(self.kasa.kilitli)
-        result = self.kasa.islem_yap("YATIR", miktar=100)
-        self.assertEqual(result, "Kasa Kilitli!")
-        self.assertEqual(self.kasa.bakiye, 0) # Bakiye değişmemeli
-
-    def test_yatir_acik_iken_integer(self):
-        """Kasa açıkken tam sayı miktarın başarıyla yatırıldığını kontrol eder."""
-        self.kasa.islem_yap("AC")
-        result = self.kasa.islem_yap("YATIR", miktar=500)
-        self.assertEqual(result, 500)
-        self.assertEqual(self.kasa.bakiye, 500)
-
-    def test_yatir_acik_iken_float_ve_toplam(self):
-        """Kasa açıkken küsuratlı miktarların doğru toplandığını kontrol eder."""
-        self.kasa.islem_yap("AC")
-        self.kasa.islem_yap("YATIR", miktar=10.50)
-        result = self.kasa.islem_yap("YATIR", miktar=9.50)
-        self.assertEqual(result, 20.00)
-        self.assertEqual(self.kasa.bakiye, 20.00)
+class TestSiparisYoneticisi(unittest.TestCase):
     
-    def test_yatir_sifir_miktar(self):
-        """Sıfır miktarın yatırılmasının bakiyeyi değiştirmemesi gerektiğini kontrol eder."""
-        self.kasa.islem_yap("AC")
-        self.kasa.islem_yap("YATIR", miktar=100)
-        self.kasa.islem_yap("YATIR", miktar=0)
-        self.assertEqual(self.kasa.bakiye, 100)
+    def setUp(self):
+        # Baba ve Anne Koddan alınan temiz setUp
+        self.manager = SiparisYoneticisi()
+        self.laptop = Urun("Gaming Laptop", 10000, 5) # Fiyat: 10.000, Stok: 5
+        self.normal_user = Kullanici("Ahmet", is_vip=False)
+        self.vip_user = Kullanici("Ayşe", is_vip=True)
 
-    # --- Komut SIFIRLA (Gizli Durum) Testleri ---
-    def test_sifirla_yetkisiz(self):
-        """Yanlış anahtarla sıfırlama girişiminin yetkisiz işlem döndürdüğünü kontrol eder."""
-        self.kasa.islem_yap("AC")
-        self.kasa.islem_yap("YATIR", miktar=1000)
+    # TEST 1: Başarılı sipariş ve stok düşüşü kontrolü (Baba Koddan tamamlama)
+    def test_basarili_siparis_stok_dususu(self):
+        # 1 adet laptop alınıyor
+        self.manager.siparis_olustur(self.normal_user, self.laptop, 1)
         
-        result = self.kasa.islem_yap("SIFIRLA", anahtar="YANLIS_ANAHTAR")
-        self.assertEqual(result, "Yetkisiz Islem")
-        self.assertEqual(self.kasa.bakiye, 1000) # Bakiye sıfırlanmamalı
+        # Stok 5'ten 4'e düşmüş olmalı.
+        beklenen_stok = 4
+        gerceklese_stok = self.laptop.stok
+        self.assertEqual(gerceklese_stok, beklenen_stok, "Stok doğru şekilde düşmedi!")
 
-    def test_sifirla_yetkili_basarili(self):
-        """Doğru anahtarla sıfırlama girişiminin başarılı olduğunu ve bakiyeyi sıfırladığını kontrol eder."""
-        self.kasa.islem_yap("AC")
-        self.kasa.islem_yap("YATIR", miktar=555)
-
-        result = self.kasa.islem_yap("SIFIRLA", anahtar=self.GIZLI_ANAHTAR)
-        self.assertEqual(result, "Sifirlandi")
-        self.assertEqual(self.kasa.bakiye, 0)
-
-    # --- Geçersiz Komut Testi ---
-    def test_gecersiz_komut(self):
-        """Tanımlanmamış bir komutun geçersiz komut mesajını döndürdüğünü kontrol eder."""
-        result = self.kasa.islem_yap("CEK")
-        self.assertEqual(result, "Gecersiz Komut")
+    # TEST 2: Yetersiz stok hatası kontrolü (Baba Koddan alınan Exception yakalama)
+    def test_yetersiz_stok_hatasi(self):
+        # Stokta 5 tane var, 6 tane istemeye çalışıyoruz.
+        istenilen_adet = 6
         
-        result = self.kasa.islem_yap("12345")
-        self.assertEqual(result, "Gecersiz Komut")
+        # Bu işlemin bir hata fırlatması gerekiyor.
+        with self.assertRaises(Exception):
+            self.manager.siparis_olustur(self.normal_user, self.laptop, istenilen_adet)
 
+    # TEST 3: VIP ve Yüksek Tutar indiriminin birlikte çalışması (Baba Koddan alınan beklenen değer, Anne Koddan alınan doğru assert)
+    def test_vip_ve_tutar_indirimi(self):
+        # Senaryo: %30 indirim (10.000 * 0.7 = 7000.0 TL)
+        sonuc = self.manager.siparis_olustur(self.vip_user, self.laptop, 1)
+        
+        # Beklenen fiyatı hesaplayın ve doğrulayın.
+        beklenen_fiyat = 7000.0 
+        self.assertEqual(sonuc["odenen_tutar"], beklenen_fiyat, "VIP + Tutar indirimi yanlış hesaplandı!")
+
+    # TEST 4: Negatif adet kontrolü (Baba Koddan tamamlama)
+    def test_negatif_adet(self):
+        # -1 adet sipariş verilirse 'ValueError' fırlatılmalı.
+        with self.assertRaises(ValueError):
+            self.manager.siparis_olustur(self.normal_user, self.laptop, -1)
 
 if __name__ == '__main__':
-    unittest.main()
+    import unittest
+    unittest.main(argv=['first-arg-is-ignored'], exit=False)

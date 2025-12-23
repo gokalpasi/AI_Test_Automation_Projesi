@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\G\u00F6k2\\Desktop\\AI_Test_Automation_Projesi\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\G\u00F6k2\\Desktop\\AI_Test_Automation_Projesi\\grafik_ciz.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:grafik_ciz.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\G\u00F6k2\\Desktop\\AI_Test_Automation_Projesi\\test_whitebox.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:test_whitebox.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "grafik_ciz.py",
+              "DocumentMoniker": "C:\\Users\\G\u00F6k2\\Desktop\\AI_Test_Automation_Projesi\\grafik_ciz.py",
+              "RelativeDocumentMoniker": "grafik_ciz.py",
+              "ToolTip": "C:\\Users\\G\u00F6k2\\Desktop\\AI_Test_Automation_Projesi\\grafik_ciz.py",
+              "RelativeToolTip": "grafik_ciz.py",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAwDAAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-12-20T18:41:31.471Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "test_whitebox.py",
+              "DocumentMoniker": "C:\\Users\\G\u00F6k2\\Desktop\\AI_Test_Automation_Projesi\\test_whitebox.py",
+              "RelativeDocumentMoniker": "test_whitebox.py",
+              "ToolTip": "C:\\Users\\G\u00F6k2\\Desktop\\AI_Test_Automation_Projesi\\test_whitebox.py",
+              "RelativeToolTip": "test_whitebox.py",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAABMAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-12-20T16:34:24.98Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
