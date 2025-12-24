@@ -70,7 +70,7 @@ def generate_test_code_from_gemini(user_prompt, fix_for_streamlit=False, mode="g
     5. "Beklenen Sonuç" kısmını mutlaka 'assert' ifadeleriyle doğrula (self.assertEqual, assertTrue vb.).
     """
 
-    # Mod seçimi
+    # Mod Seçimi
     if mode == "test_case":
         system_instruction = prompt_test_case
     else:
@@ -125,4 +125,4 @@ def generate_test_code_from_gemini(user_prompt, fix_for_streamlit=False, mode="g
             else:
                 return f"Beklenmeyen Hata: {error_msg}"
 
-    return "Hata: Tüm API anahtarlarının kotası dolu! Biraz bekleyin."
+    return "Hata: Tüm API anahtarlarının kotası dolu! Biraz bekleyiniz..."

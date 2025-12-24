@@ -65,7 +65,7 @@ class SiparisYoneticisi:
         Yeni bir sipariş oluşturur, indirimleri hesaplar ve stoktan düşer.
         
         Bu fonksiyon şu işlemleri gerçekleştirir:
-        1. Sipariş validasyonu (adet ve stok kontrolü)
+        1. Sipariş validasyonu (adet ve stok kontrol)
         2. Fiyat hesaplama (indirimler dahil)
         3. Stok güncelleme
         4. Sipariş kaydı oluşturma
