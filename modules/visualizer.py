@@ -107,7 +107,7 @@ def create_call_graph(user_scenario, generated_code, metrics):
     shells = [[scenario_node], defined_nodes, external_nodes]
     
     pos = nx.shell_layout(G, nlist=shells)
-    
+    # Bu bir yorum satırıdır
     # --- ÇİZİM ---
     # Kare canvas kullanıyoruz ki çember tam yuvarlak olsun
     fig, ax = plt.subplots(figsize=(16, 16))
